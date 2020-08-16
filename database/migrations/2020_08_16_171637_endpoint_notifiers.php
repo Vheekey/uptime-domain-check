@@ -18,10 +18,6 @@ class EndpointNotifiers extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->foreign('endpoint_id')
-                    ->references('id')
-                    ->on(config('uptime.endpoints_table'))
-                    ->onDelete('cascade');
             $table->timestamps();
         });
     }
