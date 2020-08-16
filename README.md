@@ -1,2 +1,2 @@
-# laravel-uptime-infinitypaul
-To monitor an endpoint or domain
+# uptime-domain-check
+Check availability of domain if down or up
