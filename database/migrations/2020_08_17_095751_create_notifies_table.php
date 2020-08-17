@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class EndpointNotifiers extends Migration
+class CreateNotifiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,18 @@ class EndpointNotifiers extends Migration
      */
     public function up()
     {
-        //
-        Schema::create('endpointNotifies', function (Blueprint $table) {
+        Schema::create('notifies', function (Blueprint $table) {
             $table->id();
+            $table->integer('endpoint_id')->unsigned();
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email');
+
             $table->timestamps();
+
+            $table->foreign('endpoint_id')
+                ->references('id')
+                ->on('endpoints')
+                ->onDelete('cascade');
         });
     }
 
@@ -29,7 +35,6 @@ class EndpointNotifiers extends Migration
      */
     public function down()
     {
-        //
-        Schema::dropIfExists('endpointNotifies');
+        Schema::dropIfExists('notifies');
     }
 }
