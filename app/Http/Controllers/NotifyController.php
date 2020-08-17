@@ -21,19 +21,13 @@ class NotifyController extends Controller
             'email' => 'required|email:dns',
         ]);
 
-        if($endpoint){
-            $notifiers = new Notify();
-            $notifiers->endpoint_id = $endpoint['id'];
-            $notifiers->name = $request->name;
-            $notifiers->email = $request->email;
-            $notifiers->save();
+        $notifiers = new Notify();
+        $notifiers->endpoint_id = $endpoint['id'];
+        $notifiers->name = $request->name;
+        $notifiers->email = $request->email;
+        $notifiers->save();
 
-            return response()->json(["message"=>$request->name." successfully added to ".$endpoint['uri']],200);
-        }
-
-        return response()->json(["message"=>$request->name." could not be added"],400);
-
-
+        return response()->json(["message"=>$request->name." successfully added to ".$endpoint['uri']],200);
 
     }
 }

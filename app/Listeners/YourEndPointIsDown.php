@@ -7,8 +7,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Infinitypaul\LaravelUptime\Events\EndpointIsDown;
 use App\Notifications\DownTime;
+use App\Notify;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Mail;
+use Infinitypaul\LaravelUptime\Endpoint;
 
 class YourEndPointIsDown
 {
@@ -33,7 +35,8 @@ class YourEndPointIsDown
         //
         $endpointStatus = $event->getEndpointStatus();
         $EndpointDetails = $event->getEndpoint();
-        Mail::to("vicformidable@gmail.com")->send(new EndpointDowntime($EndpointDetails));
-        // dump($endpointStatus);
+        // dump($EndpointDetails);
+        Mail::to("vicformidable@gmail.com")->send(new EndpointDowntime($EndpointDetails)); //generic email
+        Mail::to($EndpointDetails->notifies->pluck('email'))->send(new EndpointDowntime($EndpointDetails)); //emails
     }
 }
