@@ -2,6 +2,7 @@
 
 namespace Infinitypaul\LaravelUptime;
 
+use App\Notify;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
 
@@ -31,5 +32,10 @@ class Endpoint extends Model
     public function isBackUp()
     {
         return $this->status->isUp() && ($this->statuses->get(1) && $this->statuses->get(1)->isDown());
+    }
+
+    public function notifies()
+    {
+        return $this->hasMany(Notify::class);
     }
 }
