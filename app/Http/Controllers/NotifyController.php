@@ -35,7 +35,6 @@ class NotifyController extends Controller
         $request->validate([
             'email' => 'required|email:dns',
         ]);
-        
         $deleted = Notify::where('email', $request->email)
                 ->where('endpoint_id', $endpoint['id'])
                 ->delete();
