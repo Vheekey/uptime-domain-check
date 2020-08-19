@@ -33,7 +33,7 @@ class URLIsBack
         $endpointStatus = $event->getEndpointStatus();
         $EndpointDetails = $event->getEndpoint();
         // dump($EndpointDetails);
-        Mail::to("vicformidable@gmail.com")->send(new EndpointUptime($EndpointDetails)); //generic email
+        Mail::to(config('generic.genericEmail'))->send(new EndpointUptime($EndpointDetails)); //generic email
         Mail::to($EndpointDetails->notifies->pluck('email'))->send(new EndpointUptime($EndpointDetails)); //emails
     }
 }
