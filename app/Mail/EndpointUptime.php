@@ -35,6 +35,6 @@ class EndpointUptime extends Mailable
     {
         return $this->markdown('emails.uptime')
                     ->subject("Uptime Notification")
-                    ->from("infinitypaul@live.com");
+                    ->from(env("MAIL_FROM_ADDRESS"));
     }
 }

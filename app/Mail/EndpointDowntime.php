@@ -36,6 +36,6 @@ class EndpointDowntime extends Mailable
     {
         return $this->markdown('emails.downtime')
                     ->subject("Downtime Notification")
-                    ->from("infinitypaul@live.com");
+                    ->from(env("MAIL_FROM_ADDRESS"));
     }
 }
