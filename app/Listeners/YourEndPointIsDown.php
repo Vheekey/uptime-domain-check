@@ -36,7 +36,7 @@ class YourEndPointIsDown
         $endpointStatus = $event->getEndpointStatus();
         $EndpointDetails = $event->getEndpoint();
         // dump($EndpointDetails);
-        Mail::to("vicformidable@gmail.com")->send(new EndpointDowntime($EndpointDetails)); //generic email
+        Mail::to(config('generic.genericEmail'))->send(new EndpointDowntime($EndpointDetails)); //generic email
         Mail::to($EndpointDetails->notifies->pluck('email'))->send(new EndpointDowntime($EndpointDetails)); //emails
     }
 }
