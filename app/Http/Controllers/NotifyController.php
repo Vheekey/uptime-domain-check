@@ -30,4 +30,16 @@ class NotifyController extends Controller
         return response()->json(["message"=>$request->name." successfully added to ".$endpoint['uri']],200);
 
     }
+
+    public function removeNotifiers(Request $request, Endpoint $endpoint){
+        $request->validate([
+            'email' => 'required|email:dns',
+        ]);
+        
+        $deleted = Notify::where('email', $request->email)
+                ->where('endpoint_id', $endpoint['id'])
+                ->delete();
+
+        return response()->json(['message'=>$request->email.' successfully deleted from '.$endpoint['uri'], 200]);
+    }
 }
