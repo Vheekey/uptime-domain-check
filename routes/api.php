@@ -20,3 +20,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('notifiers/{endpoint}', 'NotifyController@createNotifiers');
+Route::post('remove/{endpoint}', 'NotifyController@removeNotifiers');
