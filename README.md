@@ -33,7 +33,7 @@ After doing those, you would notice the following:
  ```
  PS: Frequency in minutes
 
-#### Step 3: Register event listener
+#### Step 4: Register event listener
 In the Event service provider
 ```bash
         /**
