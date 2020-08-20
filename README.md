@@ -1,5 +1,5 @@
 # Domain Availability tracking with Laravel
-So I came across this laravel package that helps you track if your domain or endpoint is down and when it comes up. I decided to try it out with some tweaks though. 
+So I worked with this laravel package that helps you track if your domain or endpoint is down and when it comes up. I decided to try it out with some tweaks though. 
 
 This project contains a mailing feature on downtime and yeah uptime too. Lets go!
 
