@@ -409,5 +409,17 @@ In routes\api.php
     Route::post('remove/{endpoint}', 'NotifyController@removeNotifiers');
 ```
 
+##### Pinging endpoints
+Now when we run:
+```bash
+    php artisan uptime:run
+```
+Endpoints will be pinged and emails sent with status of endpoints to email addresses attached.
 
+##### To check the status of endpoints
+```bash
+    php artisan uptime:run
+```
+[Status](https://raw.githubusercontent.com/infinitypaul/laravel-uptime/master/screen.jpeg)
 
+And we're done!!!
