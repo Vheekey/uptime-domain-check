@@ -418,8 +418,9 @@ Endpoints will be pinged and emails sent with status of endpoints to email addre
 
 ##### To check the status of endpoints
 ```bash
-    php artisan uptime:run
+    php artisan uptime:status
 ```
-[Status](https://raw.githubusercontent.com/infinitypaul/laravel-uptime/master/screen.jpeg)
+
+![Status](https://raw.githubusercontent.com/infinitypaul/laravel-uptime/master/screen.jpeg)
 
 And we're done!!!
