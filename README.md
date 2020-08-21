@@ -3,8 +3,6 @@ So I worked with this laravel package that helps you track if your domain or end
 
 This project contains a mailing feature on downtime and yeah uptime too. Lets go!
 
-## Setup
-
 #### Step 1: Install the package via composer.
 ```bash
 composer require infinitypaul/laravel-uptime
@@ -99,7 +97,7 @@ In the migration file
 ```
 
 #### Step 6: Configure .env and config for generic email
-In our .env file, we'll be adding another constant so our .env must have the following:
+In our .env file, we'll be adding another constant so our .env must contain the following:
 ```bash
 
     DB_DATABASE=monitoring
@@ -119,7 +117,7 @@ In config folder, create a file generic.php and add the following:
     ];
 ```
 
-#### Step 6: Create Mailing notifications
+#### Step 7: Create Mailing notifications
 ```bash
     php artisan make:mail EndpointDowntime --markdown=emails.downtime
 ```
@@ -243,7 +241,7 @@ In resources\views\emails\uptime.blade.php
 
 ```
 
-#### Step 6: Register event listener
+#### Step 8: Register event listener
 In the EventServiceProvider.php
 ```bash
     /**
@@ -262,7 +260,7 @@ In the EventServiceProvider.php
     ];
  ```
 
-#### Step 6: Register events
+#### Step 9: Register events
 In App/Listeners/URLIsBack.php we'll register events to be triggered
 
 ```bash
@@ -349,5 +347,67 @@ class YourEndPointIsDown
 }
 
 ```
+#### Step 10: Create controller
+This controller is to add notification email addresses to the table so they can be notified whenever any endpoint is down or back.
+
+```bash
+    php artisan make:controller NotifyController
+```
+In the app\Http\Controllers\NotifyController.php
+```bash
+    <?php
+
+    namespace App\Http\Controllers;
+
+    use App\Http\Controllers\Controller;
+    use App\Notify;
+    use Illuminate\Http\Request;
+    use Infinitypaul\LaravelUptime\Endpoint;
+
+    class NotifyController extends Controller
+    {
+        public function createNotifiers(Request $request, Endpoint $endpoint){
+            $request->validate([
+                'name' => [
+                    'required',
+                    'string',
+                    'min:8',
+                    'regex:/^([a-z]+\s[a-z]+(\s[a-z]+)?)$/i'
+                ],
+                'email' => 'required|email:dns',
+            ]);
+
+            $notifiers = new Notify();
+            $notifiers->endpoint_id = $endpoint['id'];
+            $notifiers->name = $request->name;
+            $notifiers->email = $request->email;
+            $notifiers->save();
+
+            return response()->json(["message"=>$request->name." successfully added to ".$endpoint['uri']],200);
+
+        }
+
+        public function removeNotifiers(Request $request, Endpoint $endpoint){
+            $request->validate([
+                'email' => 'required|email:dns',
+            ]);
+            $deleted = Notify::where('email', $request->email)
+                    ->where('endpoint_id', $endpoint['id'])
+                    ->delete();
+
+            return response()->json(['message'=>$request->email.' successfully deleted from '.$endpoint['uri'], 200]);
+        }
+    }
+
+```
+
+#### Step 11: Add api endpoints
+In routes\api.php
+
+```bash
+    Route::post('notifiers/{endpoint}', 'NotifyController@createNotifiers');
+    Route::post('remove/{endpoint}', 'NotifyController@removeNotifiers');
+```
+
 
 
