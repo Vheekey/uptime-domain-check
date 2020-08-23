@@ -1,38 +1,16 @@
 # Domain Availability tracking with Laravel
-So I worked with this laravel package that helps you track if your domain or endpoint is down and when it comes up. I decided to try it out with some tweaks though. 
+So I worked with this laravel [package](https://github.com/infinitypaul/laravel-uptime) by infinitypaul that helps you track if your domain or endpoint is down and when it comes up. I decided to try it out with some tweaks though.
 
-This project contains a mailing feature on downtime and yeah uptime too. Lets go!
+You can refer to the full package here: https://github.com/infinitypaul/laravel-uptime
 
-#### Step 1: Install the package via composer.
+This project contains a mailing feature on downtime and yeah uptime too which is a tweak to the original feature of the package. Lets go!
+
+#### Step 1: Clone the repository.
 ```bash
-composer require infinitypaul/laravel-uptime
+git clone https://github.com/Vheekey/uptime-domain-check.git
 ```
 
-#### Step 2: Publish configuration and migration files
-```bash
-php artisan vendor:publish --provider="Infinitypaul\LaravelUptime\LaravelUptimeServiceProvider"
-```
-#### Step 3: Run Migration files
-Create database then run migration files
-```bash
-php artisan migrate
-```
-After doing those, you would notice the following:
-- uptime.php would be created in /config
-- endpoints table for storing endpoints
-- statuses table for storing the ping status of the endpoints
-
-#### Step 4: Add Endpoints
-```bash
- php artisan endpoint:add <endpoint url> -f <frequency>
- ```
- e.g
- ```bash
- php artisan endpoint:add https://www.example.com -f 5
- ```
- PS: Frequency in minutes
-
-#### Step 5: Create custom mailing table
+#### Step 2: Create custom mailing table
 We'll be creating another model with migration to tie endpoint id(s) to email addresses to be notified
 ```bash
     php artisan make:model Notify -m 
@@ -42,7 +20,7 @@ In App/Notify.php
     namespace App;
 
     use Illuminate\Database\Eloquent\Model;
-    use Infinitypaul\LaravelUptime\Endpoint;
+    use Infinitypaul\Laravel\Uptime\Endpoint;
 
     class Notify extends Model
     {
@@ -96,7 +74,7 @@ In the migration file
 
 ```
 
-#### Step 6: Configure .env and config for generic email
+#### Step 3: Configure .env and config for generic email
 In our .env file, we'll be adding another constant so our .env must contain the following:
 ```bash
 
@@ -117,7 +95,7 @@ In config folder, create a file generic.php and add the following:
     ];
 ```
 
-#### Step 7: Create Mailing notifications
+#### Step 4: Create Mailing notifications
 ```bash
     php artisan make:mail EndpointDowntime --markdown=emails.downtime
 ```
@@ -241,7 +219,7 @@ In resources\views\emails\uptime.blade.php
 
 ```
 
-#### Step 8: Register event listener
+#### Step 5: Register event listener
 In the EventServiceProvider.php
 ```bash
     /**
@@ -260,7 +238,7 @@ In the EventServiceProvider.php
     ];
  ```
 
-#### Step 9: Register events
+#### Step 6: Register events
 In App/Listeners/URLIsBack.php we'll register events to be triggered
 
 ```bash
@@ -347,7 +325,7 @@ class YourEndPointIsDown
 }
 
 ```
-#### Step 10: Create controller
+#### Step 7: Create controller
 This controller is to add notification email addresses to the table so they can be notified whenever any endpoint is down or back.
 
 ```bash
@@ -401,7 +379,7 @@ In the app\Http\Controllers\NotifyController.php
 
 ```
 
-#### Step 11: Add api endpoints
+#### Step 8: Add api endpoints
 In routes\api.php
 
 ```bash
